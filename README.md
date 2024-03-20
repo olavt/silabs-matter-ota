@@ -80,9 +80,38 @@ Create the OTA firmware file. Make sure the version number you specifiy in the b
  ./commander-cli/commander-cli ota create --type matter --input <input_file>.gbl --vendorid 0xFFF1 --productid 0x8005 --swstring "3.0" --swversion 3 --digest sha256 -o <output_file>.ota
 ```
 
+## Run the OTA Provider application
 
+```
+ ./connectedhomeid/out/provider/chip-ota-provider-app -f <name_of_OTA_file>.ota
+```
 
+## Commission the OTA Provider into the Matter network
 
+```
+cd connectedhomeip
+./chip-tool pairing ble-thread 999 hex:<operationalDataset> 20202021 3840
+```
+
+## Configure the Matter device with the default OTA Provider
+
+This step assumes that the target node for the firmware update already is commissioned to the network.
+
+```
+./chip-tool otasoftwareupdaterequestor write default-otaproviders '[{"fabricIndex": 1, "providerNodeID": 999, "endpoint": 0}]' <node_id> 0
+```
+
+## Configure the OTA Provider
+
+Configure the OTA Provider with the access control list (ACL) that grants Operate privileges to all nodes in the fabric. This is necessary to allow the nodes to send cluster commands to the OTA Provider:
+```
+./chip-tool accesscontrol write acl '[{"fabricIndex": 1, "privilege": 5, "authMode": 2, "subjects": [112233], "targets": null}, {"fabricIndex": 1, "privilege": 3, "authMode": 2, "subjects": null, "targets": null}]' 999 0
+```
+
+## Initiate the Device Firmware Upgrade procedure
+```
+./chip-tool otasoftwareupdaterequestor announce-otaprovider <ProviderNodeID> <VendorID> <AnnouncementReason> <ProviderEndpointId> <TargetNodeId> <TargetEndpointId>
+```
 
 https://www.silabs.com/documents/public/user-guides/ug489-gecko-bootloader-user-guide-gsdk-4.pdf
 
