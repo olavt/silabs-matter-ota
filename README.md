@@ -83,14 +83,14 @@ Create the OTA firmware file. Make sure the version number you specifiy in the b
 ## Run the OTA Provider application
 
 ```
- ./connectedhomeid/out/provider/chip-ota-provider-app -f <name_of_OTA_file>.ota
+ ./connectedhomeip/out/provider/chip-ota-provider-app -f <name_of_OTA_file>.ota
 ```
 
 ## Commission the OTA Provider into the Matter network
 
 ```
-cd connectedhomeip
-./chip-tool pairing ble-thread 999 hex:<operationalDataset> 20202021 3840
+cd connectedhomeip/out
+./chip-tool pairing onnetwork 1 20202021
 ```
 
 ## Configure the Matter device with the default OTA Provider
