@@ -113,6 +113,11 @@ Configure the OTA Provider with the access control list (ACL) that grants Operat
 ./chip-tool otasoftwareupdaterequestor announce-otaprovider <ProviderNodeID> <VendorID> <AnnouncementReason> <ProviderEndpointId> <TargetNodeId> <TargetEndpointId>
 ```
 
+Example:
+```
+./chip-tool otasoftwareupdaterequestor announce-otaprovider 999 0 0 0 2 0
+```
+
 https://www.silabs.com/documents/public/user-guides/ug489-gecko-bootloader-user-guide-gsdk-4.pdf
 
 https://community.silabs.com/s/article/Matter-Software-Update-Over-The-Air?language=en_US&t=1710664906672
