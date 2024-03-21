@@ -90,7 +90,7 @@ Create the OTA firmware file. Make sure the version number you specifiy in the b
 
 ```
 cd connectedhomeip/out
-./chip-tool pairing onnetwork 1 20202021
+./chip-tool pairing onnetwork 999 20202021
 ```
 
 ## Configure the Matter device with the default OTA Provider
