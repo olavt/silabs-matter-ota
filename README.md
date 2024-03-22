@@ -58,6 +58,8 @@ Find the "Bootloader - SoC Internal Storage (single image on 1536kB device)" exa
 
 Open the .slcp file in your bootloader project and select "SOFTWARE COMPONENTS".
 
+Note! Need to add some information about using Simplicity Commander to look at the Flash Map to figure out the Bootloader Storage Slot Setup settings.
+
 Install the "GBL Compression (LZMA)" component under Platform->Bootloader->Core:
 
 ![GBL Compression (LZMA)](./images/bootloader-core-gbl-compression-lzma.png)
@@ -72,7 +74,7 @@ You can use any of the Matter example projects as a starting point.
 
 Convert the .s37 firmware file to a GBL file:
 ```
- ./commander-cli/commander-cli gbl create <output_file>.gbl --app <input_file>.s37
+ ./commander-cli/commander-cli gbl create  --compress lzma <output_file>.gbl --app <input_file>.s37
 ```
 
 Create the OTA firmware file. Make sure the version number you specifiy in the below command is higher than the version currently running in the device. The Vendor Id and Product Id must also match (these values can be found in CHIPProjectConfig.h)
