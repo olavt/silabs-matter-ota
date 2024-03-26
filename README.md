@@ -120,7 +120,7 @@ Convert the .s37 firmware file to a GBL file:
 Check that the size of the GBL file fits into the Bootloader Storage Slot 0 size.
 
 ```
-ubuntu@ubuntu:~$ ls -l *.gbl
+$ ls -l *.gbl
 -rw-rw-r-- 1 ubuntu ubuntu 516592 Mar 26 17:17 MatterSensorOverThread.gbl
 ```
 
@@ -130,6 +130,22 @@ Create the OTA firmware file. Make sure the version number you specifiy in the b
 
 ```
  ./commander-cli/commander-cli ota create --type matter --input <input_file>.gbl --vendorid 0xFFF1 --productid 0x8005 --swstring "3.0" --swversion 3 --digest sha256 -o <output_file>.ota
+```
+
+An example:
+```
+$ ./commander-cli/commander-cli ota create --type matter --input MatterSensorOverThread.gbl --vendorid 0x
+FFF1 --productid 0x8002 --swstring "3.0" --swversion 3 --digest sha256 -o MatterSensorOverThread.ota
+Creating OTA file...
+Writing header data...
+Vendor ID              : 0xfff1
+Product ID             : 0x8002
+Software Version       : 0x00000003
+Software Version String: 3.0
+Digest Type            : sha256
+Writing OTA file MatterSensorOverThread.ota...
+DONE
+$
 ```
 
 ## Run the OTA Provider application
