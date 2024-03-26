@@ -117,6 +117,15 @@ Convert the .s37 firmware file to a GBL file:
  ./commander-cli/commander-cli gbl create  --compress lzma <output_file>.gbl --app <input_file>.s37
 ```
 
+Check that the size of the GBL file fits into the Bootloader Storage Slot 0 size.
+
+```
+ubuntu@ubuntu:~$ ls -l *.gbl
+-rw-rw-r-- 1 ubuntu ubuntu 516592 Mar 26 17:17 MatterSensorOverThread.gbl
+```
+
+In the above example the size if 516,592 bytes and will fit into the slot size of 573,440 that was set for the bootloader.
+
 Create the OTA firmware file. Make sure the version number you specifiy in the below command is higher than the version currently running in the device. The Vendor Id and Product Id must also match the settings for your application project.
 
 ```
