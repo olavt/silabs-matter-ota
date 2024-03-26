@@ -64,11 +64,51 @@ Install the "GBL Compression (LZMA)" component under Platform->Bootloader->Core:
 
 ![GBL Compression (LZMA)](./images/bootloader-core-gbl-compression-lzma.png)
 
+### Bootloader Storage Slot Setup
+
+This step requires that you have already flashed the Booloader (using default settings) and the Application to the development kit.
+
+To determine the settings, launch the Simplicity Commander tool from Simplicity Studio (click on the Tools button in the menu bar).
+
+Select your development kit from the menu in the upper left corner:
+
+![Simplicity Commander Select Kit](./images/simplicity-commander-select-kit.png)
+
+Select Device Info in the menu to the left:
+
+![Simplicity Commander Device Info](./images/simplicity-commander-device-info.png)
+
+Click on the "Flash Map" button.
+
+![Simplicity Commander Device Info](./images/simplicity-commander-flash-map.png)
+
+In the flash map you will see the used / free space for the flash memory on your development kit.
+
+The OTA firmware needs to fit into the free space (white squares). It's also a good idea to leave some space before the OTA firmware to allow for the application size to grow a bit.
+
+In the example shown above, I use 0x080E000 as the Slot 0 Start Address.
+
+Each white squire is 8192 bytes in length. I will use 5 rows of white squares for the OTA firmware. Each row consist of 14 squares. The setting for the Slot 0 Slot Size can then be calculated to 573,440 bytes (5 * 14 * 8192). This is 0x8C000 in hexadecimal.
+
+In the Software Components settings for your Bootloader project, select the 
+
+![Platform Bootloader Storage Slot Setup](./images/platform-bootloader-storage-slot-setup.png)
+
+Enter the Start Address and Slot Size as determined above in the dialog.
+
+![Platform Bootloader Storage Slot Setup](./images/platform-bootloader-storage-slot-settings.png)
+
 Build the bootloader project, find the .s37 image file (under the Binaries folder) and flash it to your Silicon Labs Dev Kit.
 
 ## Prepare the application firmware files
 
 You can use any of the Matter example projects as a starting point.
+
+Remember to set the version numbers for the application here:
+
+![Matter Core Components](./images/matter-core-components.png)
+
+![Matter Core Components Configuration](./images/matter-core-components-configuration.png)
 
 ## Prepare the Over-The-Air firmware files
 
@@ -77,7 +117,8 @@ Convert the .s37 firmware file to a GBL file:
  ./commander-cli/commander-cli gbl create  --compress lzma <output_file>.gbl --app <input_file>.s37
 ```
 
-Create the OTA firmware file. Make sure the version number you specifiy in the below command is higher than the version currently running in the device. The Vendor Id and Product Id must also match (these values can be found in CHIPProjectConfig.h)
+Create the OTA firmware file. Make sure the version number you specifiy in the below command is higher than the version currently running in the device. The Vendor Id and Product Id must also match the settings for your application project.
+
 ```
  ./commander-cli/commander-cli ota create --type matter --input <input_file>.gbl --vendorid 0xFFF1 --productid 0x8005 --swstring "3.0" --swversion 3 --digest sha256 -o <output_file>.ota
 ```
